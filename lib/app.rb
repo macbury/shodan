@@ -6,7 +6,7 @@ require_relative './tick'
 require_relative './api'
 
 module Shodan
-  DEFAULT_PORT = 8080
+  DEFAULT_PORT = 80
   SERVICE_TYPE = '_http._tcp'
   SERVICE_NAME = 'Shodan'
   # Run app
@@ -35,6 +35,13 @@ module Shodan
       unless ['thin', 'hatetepe', 'goliath'].include? server
         raise "Need an EM webserver, but #{server} isn't"
       end
+
+      EM::Cron.schedule("* * * * *") do |time|
+        puts "Reading sensor information: #{time}"
+        Shodan::Tick.new
+      end
+
+      EM.next_tick { Shodan::Tick.new }
 
       # Start the web server. Note that you are free to run other tasks
       # within your EM instance.

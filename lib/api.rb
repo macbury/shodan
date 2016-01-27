@@ -6,16 +6,19 @@ module Shodan
       set :database, { adapter: 'sqlite3' }
     end
 
-    # Return current status for bamboo
     get '/' do
       content_type :json
       Measurement.last.to_json
     end
 
-    # Return how much moisture is in bamboo
-    get '/moisture' do
+    get '/stats/24_hours' do
       content_type :json
-      { moisture: 20 }.to_json
+      Measurement.average_temperature_and_humidity_by_hour(24.hours.ago).to_json
+    end
+
+    get '/stats/last_week' do
+      content_type :json
+      Measurement.average_temperature_and_humidity_by_days(7.days.ago).to_json
     end
   end
 end

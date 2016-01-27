@@ -8,10 +8,11 @@ gem 'thin'
 
 gem 'sinatra-activerecord'
 gem 'sqlite3'
-
+gem 'em-cron'
 gem 'cocaine'
 gem 'whenever'
 gem 'pry'
+gem 'bluepill'
 group :test do
   gem 'rspec'
   gem 'rack-test'
