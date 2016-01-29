@@ -41,7 +41,7 @@ module Shodan
         Shodan::Tick.new
       end
 
-      EM::Cron.schedule("0 18 * * 5") do |time|
+      EM::Cron.schedule("0 17 * * 5") do |time|
         puts "Switching into weekend mode"
         Humidifier.all.each(&:weekend!)
       end

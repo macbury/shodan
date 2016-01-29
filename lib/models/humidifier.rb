@@ -10,6 +10,14 @@ class Humidifier < ActiveRecord::Base
     save
   end
 
+  def next_tick_seconds_left
+    if next_tick_at && !can_next_tick?
+      next_tick_at.to_i - Time.now.to_i
+    else
+      0
+    end
+  end
+
   def refill!
     self.shot_left = self.max_shots
     change_state(STATE_CHECK_ENV)
@@ -76,7 +84,7 @@ class Humidifier < ActiveRecord::Base
     elsif state == STATE_SLEEP && can_next_tick?
       change_state(STATE_CHECK_ENV)
     elsif state == STATE_RUNNING && can_next_tick?
-      change_state(STATE_SLEEP)
+      change_state(STATE_CHECK_ENV)
     end
   end
 
