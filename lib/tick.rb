@@ -1,6 +1,6 @@
 require_relative './sensors'
-require_relative './switch'
 require_relative './models/measurement'
+require_relative './models/humidifier'
 module Shodan
   # Here will be runned all stuff to check temperature and turn on or off switches
   class Tick
@@ -18,6 +18,8 @@ module Shodan
         measurement.humidity    = temperature_and_hum[:hum]
         measurement.save
       end
+
+      Humidifier.all.each(&:tick!)
     end
   end
 end

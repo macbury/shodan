@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126090156) do
+ActiveRecord::Schema.define(version: 20160129080437) do
+
+  create_table "humidifiers", force: :cascade do |t|
+    t.float    "min_humidity",   default: 36.0
+    t.integer  "max_shots",      default: 6
+    t.integer  "shot_duration",  default: 30
+    t.integer  "shot_left",      default: 6
+    t.integer  "sleep_duration", default: 10
+    t.integer  "start_command",                        null: false
+    t.integer  "stop_command",                         null: false
+    t.datetime "next_tick_at"
+    t.string   "state",          default: "check_env"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "measurements", force: :cascade do |t|
     t.float    "temperature", null: false
