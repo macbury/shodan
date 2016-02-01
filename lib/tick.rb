@@ -5,21 +5,22 @@ require_relative './models/device'
 module Shodan
   # Here will be runned all stuff to check temperature and turn on or off switches
   class Tick
-    def initialize
+    def initialize(sensors)
+      @sensor = sensors
       run
     end
 
     def run
-      temperature_and_hum = Shodan::Sensors.dht11
-      if temperature_and_hum
-        puts "Current temperature: #{temperature_and_hum[:temp]} C"
-        puts "Current humidity: #{temperature_and_hum[:hum]} %"
+      puts "[Tick] !"
+      @sensor.reset!
+      if @sensor.temperature && @sensor.humidity
+        puts "Current temperature: #{@sensor.temperature} C"
+        puts "Current humidity: #{@sensor.humidity} %"
         measurement             = Measurement.new
-        measurement.temperature = temperature_and_hum[:temp]
-        measurement.humidity    = temperature_and_hum[:hum]
+        measurement.temperature = @sensor.temperature
+        measurement.humidity    = @sensor.humidity
         measurement.save
       end
-
       Humidifier.all.each(&:tick!)
     end
   end

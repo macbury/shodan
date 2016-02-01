@@ -36,23 +36,13 @@ module Shodan
         raise "Need an EM webserver, but #{server} isn't"
       end
 
+      sensor = Shodan::Sensors.new
+
       EM::Cron.schedule("* * * * *") do |time|
         puts "Reading sensor information: #{time}"
-        Shodan::Tick.new
+        Shodan::Tick.new(sensor)
       end
 
-      EM.next_tick { Shodan::Tick.new }
-=begin
-      EM::Cron.schedule("0 17 * * 5") do |time|
-        puts "Switching into weekend mode"
-        Humidifier.all.each(&:weekend!)
-      end
-
-      EM::Cron.schedule("0 5 * * 1") do |time|
-        puts "Switching into normal mode"
-        Humidifier.all.each(&:check_env!)
-      end
-=end
       # Start the web server. Note that you are free to run other tasks
       # within your EM instance.
       Rack::Server.start({
