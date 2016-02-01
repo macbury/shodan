@@ -12,6 +12,6 @@ class CreateHumiditiers < ActiveRecord::Migration
       t.string  :state,         default: 'check_env'
       t.timestamps
     end
-    
+
   end
 end

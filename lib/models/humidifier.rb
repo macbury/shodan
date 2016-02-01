@@ -98,15 +98,22 @@ class Humidifier < ActiveRecord::Base
 
   # Starts Humidifier if there are shoots left, otherwise go to sleep or set status out of water
   def start_if_measurment_allows
-    if shot_left == 0
+    if Device.in_range.count.zero?
+      log "No devices in range... Sleeping"
+      change_state(STATE_SLEEP)
+    elsif shot_left == 0
+      log "Out of water!"
       change_state(STATE_OUT_OF_WATER)
     elsif current_measurment = Measurement.last
       if current_measurment.humidity < min_humidity
+        log "Too dry, starting humidifier"
         change_state(STATE_RUNNING)
       else
+        log "Nice humidity, sleeping"
         change_state(STATE_SLEEP)
       end
     else
+      log "Nothing to do..."
       change_state(STATE_SLEEP)
     end
   end

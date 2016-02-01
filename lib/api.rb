@@ -11,6 +11,13 @@ module Shodan
       Measurement.last.to_json
     end
 
+    get '/ping/:uid' do
+      content_type :json
+      @device = Device.find_or_create_by(uid: params[:uid])
+      @device.ping!
+      { state: Humidifier.first.state }.to_json
+    end
+
     get '/humidifier/:id/refill' do
       content_type :json
       Humidifier.find(params[:id]).refill!

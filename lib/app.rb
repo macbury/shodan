@@ -41,6 +41,8 @@ module Shodan
         Shodan::Tick.new
       end
 
+      EM.next_tick { Shodan::Tick.new }
+=begin
       EM::Cron.schedule("0 17 * * 5") do |time|
         puts "Switching into weekend mode"
         Humidifier.all.each(&:weekend!)
@@ -50,7 +52,7 @@ module Shodan
         puts "Switching into normal mode"
         Humidifier.all.each(&:check_env!)
       end
-
+=end
       # Start the web server. Note that you are free to run other tasks
       # within your EM instance.
       Rack::Server.start({

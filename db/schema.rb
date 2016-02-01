@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160129080437) do
+ActiveRecord::Schema.define(version: 20160201074819) do
+
+  create_table "devices", force: :cascade do |t|
+    t.string   "uid"
+    t.datetime "next_timeout"
+  end
 
   create_table "humidifiers", force: :cascade do |t|
     t.float    "min_humidity",   default: 36.0

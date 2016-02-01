@@ -1,6 +1,7 @@
 require_relative './sensors'
 require_relative './models/measurement'
 require_relative './models/humidifier'
+require_relative './models/device'
 module Shodan
   # Here will be runned all stuff to check temperature and turn on or off switches
   class Tick
